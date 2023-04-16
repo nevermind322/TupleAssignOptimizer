@@ -1,0 +1,55 @@
+
+// ==========================================================================
+//  GPPG error listing for yacc source file <SimpleYacc.y>
+// ==========================================================================
+//  Version:  1.3.6
+//  Machine:  LAPTOP-9M8I2R2U
+//  DateTime: 28.03.2023 21:39:42
+//  UserName: Алексей
+// ==========================================================================
+
+
+%{
+    public List<Symbol> left;
+    public List<Symbol> right;
+    public Parser(AbstractScanner<ValueType, LexLocation> scanner) : base(scanner) { }
+%}
+
+%output = TupleParser.cs
+
+%union { 
+			public Symbol sVal;
+            public List<Symbol> tupleVal;
+       }
+
+%using System.IO;
+%using AssignTupleOptimizer;
+
+%namespace SimpleParser
+
+%start progr
+
+%token RPAREN LPAREN ASSIGN COLUMN
+
+%token <sVal> Local NonLocal 
+
+%type <sVal> var 
+%type <tupleVal> progr tuple vars
+
+%%
+    progr : tuple ASSIGN tuple {left = $1; right = $3; $$ = $1;} 
+//--^^^^^
+// Error: Syntax error, unexpected ident, expecting anchoredSymbol, or error
+// -------------------------------------------------------------------------
+        ;
+    tuple : LPAREN vars RPAREN {$$ = $1;}
+        ;
+    vars : var {$$ = new List<Symbol>(){$1};}
+        | vars COLUMN var {$1.Add($2); $$ = $1;}
+        ;
+    var : Local {$$ = $1;}
+        | NonLocal {$$ = $1;}
+        ;
+%%
+// ==========================================================================
+

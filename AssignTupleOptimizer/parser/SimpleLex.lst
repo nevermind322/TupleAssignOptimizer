@@ -1,0 +1,86 @@
+
+// ==========================================================================
+//  GPLEX error listing for lex source file <SimpleLex.lex>
+// ==========================================================================
+//  Version:  1.1.3.301
+//  Machine:  LAPTOP-9M8I2R2U
+//  DateTime: 28.03.2023 21:14:33
+//  UserName: ???????
+// ==========================================================================
+
+
+%using TupleParser;
+%using QUT.Gppg;
+%using System.Linq;
+%using AssignTupleOptimizer.Symbol;
+
+%namespace TupleParser
+
+local 	[a-z]
+nonLocal   [A-Z] 
+
+%%
+
+{local}  
+// Error: Empty semantic action, must be at least a comment
+// --------------------------------------------------------
+{ 
+// Error: Invalid production rule
+// Error: Invalid single-line action
+// Error: Parser error <Syntax error, unexpected "{"> 
+// ---------------------------------------------------
+  int res = Tokens.Local;
+  yylval.sVal = new Symbol(yytext);
+  return res;
+}
+// Error: Invalid production rule
+// Error: Invalid production rule
+// Error: Parser error <Syntax error, unexpected "}"> 
+// ---------------------------------------------------
+
+{nonLocal}  
+// Error: Empty semantic action, must be at least a comment
+// --------------------------------------------------------
+{ 
+// Error: Invalid production rule
+// Error: Invalid single-line action
+// ---------------------------------
+  int res = Tokens.NonLocal;
+  yylval.sVal = new Symbol(yytext);
+  yylval.sVal.fromOuterScope = true;
+  return res;
+}
+// Error: Invalid production rule
+// Error: Invalid production rule
+// Error: Parser error <Syntax error, unexpected "}"> 
+// ---------------------------------------------------
+
+%{
+  yylloc = new LexLocation(tokLin, tokCol, tokELin, tokECol);
+%}
+
+%%
+
+public override void yyerror(string format, params object[] args) // обработка синтаксических ошибок
+{
+  var ww = args.Skip(1).Cast<string>().ToArray();
+  string errorMsg = string.Format("({0},{1}): Встречено {2}, а ожидалось {3}", yyline, yycol, args[0], string.Join(" или ", ww));
+  throw new Exception(errorMsg, yylloc);
+}
+
+public void LexError()
+{
+  string errorMsg = string.Format("({0},{1}): Неизвестный символ {2}", yyline, yycol, yytext);
+  throw new Exception(errorMsg);
+}
+
+class ScannerHelper 
+{
+
+  static ScannerHelper() 
+  {
+  }
+  
+}
+// ==========================================================================
+
