@@ -78,15 +78,29 @@ namespace AssignTupleOptimizer
             List<Edge> assign_first = new List<Edge>();
             List<Edge> assign_last = new List<Edge>();
 
-            int leftCount = left.Count(symbol => symbol.fromOuterScope);
-            int rightCount = right.Count(symbol => symbol.fromOuterScope);
+            int leftFromOuterCount = left.Count(symbol => symbol.fromOuterScope);
+            int rightFromOuterCount = right.Count(symbol => symbol.fromOuterScope);
+            
+            string temp_name;
+            Symbol temp_symbol;
 
-            if (leftCount > 0 && rightCount > 0)
+            for (int i = 0; i < left.Count(); i++)
             {
-                if (leftCount < rightCount)
+               if (right[i].isExpr)
+               {
+                    temp_name = "$" + i + "_temp";
+                    temp_symbol = new Symbol(temp_name);
+                    assign_first.Add(new Edge(new SymbolVertex(right[i]),
+                        new SymbolVertex(temp_symbol)));
+                    right[i] = temp_symbol;
+                }
+            }
+
+            if (leftFromOuterCount > 0 && rightFromOuterCount > 0)
+            {
+                if (leftFromOuterCount < rightFromOuterCount)
                 {
-                    string temp_name;
-                    Symbol temp_symbol;
+                    
 
                     for (int i = 0; i < left.Count; i++)
                     {
@@ -118,9 +132,7 @@ namespace AssignTupleOptimizer
                 }
                 else
                 {
-                    string temp_name;
-                    Symbol temp_symbol;
-
+           
                     for (int i = 0; i < left.Count; i++)
                     {
                         if (right[i].fromOuterScope)

@@ -6,6 +6,8 @@
 
         public bool fromOuterScope = false;
 
+        public bool isExpr = false;
+
         public Symbol(string n)
         {
             name = n;
