@@ -2,16 +2,17 @@
 
 namespace AssignTupleOptimizer
 {
-    public class Vertex : IEquatable<Vertex>
+    public class SymbolNode : IEquatable<SymbolNode>
     {
         public readonly string label;
         public int? number = null;
+        public readonly Symbol symbol;
 
-        public Vertex(string label)
+        public SymbolNode(Symbol s)
         {
-            this.label = label;
+            symbol = s;
+            label = s.name;
         }
-
 
         public enum Color
         {
@@ -23,7 +24,7 @@ namespace AssignTupleOptimizer
         public Color color = Color.WHITE;
         public void resetColor() => color = Color.WHITE;
 
-        public bool Equals(Vertex other)
+        public bool Equals(SymbolNode other)
         {
             if (other is null) return false;
 
@@ -38,7 +39,7 @@ namespace AssignTupleOptimizer
         public override bool Equals(object other)
         {
             if (GetType() != other.GetType()) return false;
-            return Equals((Vertex)other);
+            return Equals((SymbolNode)other);
         }
 
 
@@ -51,6 +52,14 @@ namespace AssignTupleOptimizer
             }
 
             return label + n;
+        }
+    }
+
+    public class TempSymbolNode : SymbolNode
+    {
+        public TempSymbolNode(TempSymbol s) : base(s)
+        {
+
         }
     }
 }

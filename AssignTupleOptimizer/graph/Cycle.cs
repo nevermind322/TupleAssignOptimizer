@@ -2,77 +2,20 @@
 
 namespace AssignTupleOptimizer
 {
-    public class Cycle : System.IEquatable<Cycle>
+    public class Cycle
     {
-        List<Vertex> cycle;
+        List<SymbolNode> cycle;
 
 
-        public int Len
+        public int Len => cycle.Count;
+
+        public Cycle(List<SymbolNode> c)
         {
-            get { return cycle.Count; }
+            cycle = c;
         }
 
-
-        public Cycle(List<Vertex> c)
-        {
-            cycle = new List<Vertex>(c);
-        }
-
-        public Vertex this[int i]
-        {
-            get { return cycle[i % Len]; }
-        }
-
-
-        public class CycleComparer : EqualityComparer<Cycle>
-        {
-            public override bool Equals(Cycle x, Cycle y)
-            {
-                return x.Equals(y);
-            }
-
-            public override int GetHashCode(Cycle obj)
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        public bool Equals(Cycle other)
-        {
-            if (Len != other.Len) return false;
-
-            bool is_cyclic_shift;
-
-            for (int i = 0; i < Len; i++)
-            {
-                is_cyclic_shift = true;
-                for (int j = 0; j < other.Len; j++)
-                {
-                    if (this[j + i] != other[j])
-                    {
-                        is_cyclic_shift = false;
-                        break;
-                    }
-                }
-
-                if (is_cyclic_shift) return true;
-            }
-
-            return false;
-        }
-
-        public override bool Equals(object other)
-        {
-            if (other is null) return false;
-            return Equals((Cycle)other);
-        }
-
-        public override int GetHashCode()
-        {
-            int res = 0;
-            foreach (var el in cycle) res ^= el.GetHashCode();
-            return res;
-        }
+        public SymbolNode this[int i] => cycle[i % Len]; 
+        
 
         public override string ToString()
         {

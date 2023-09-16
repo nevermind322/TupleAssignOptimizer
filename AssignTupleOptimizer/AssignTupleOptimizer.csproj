@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F0AB4AF1-D584-4760-8AFB-F87962744DA8}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>AssignTupleOptimizer</RootNamespace>
     <AssemblyName>AssignTupleOptimizer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -46,14 +46,13 @@
     <Compile Include="graph\AssignGraph.cs" />
     <Compile Include="graph\Cycle.cs" />
     <Compile Include="graph\Edge.cs" />
-    <Compile Include="GraphUtils.cs" />
+    <Compile Include="graph\GraphUtils.cs" />
     <Compile Include="parser\ShiftReduceParserCode.cs" />
     <Compile Include="parser\SimpleLex.cs" />
     <Compile Include="parser\TupleParser.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Symbol.cs" />
-    <Compile Include="SymbolVertex.cs" />
-    <Compile Include="Vertex.cs" />
+    <Compile Include="graph\Symbol.cs" />
+    <Compile Include="graph\SymbolNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

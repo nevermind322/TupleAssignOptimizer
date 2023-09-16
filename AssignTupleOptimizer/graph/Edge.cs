@@ -4,11 +4,11 @@ namespace AssignTupleOptimizer
 {
     public class Edge : IEquatable<Edge>, IComparable<Edge>
     {
-        public Vertex from;
-        public Vertex to;
+        public SymbolNode from;
+        public SymbolNode to;
         public int weight;
 
-        public Edge(Vertex f, Vertex t, int w = 0)
+        public Edge(SymbolNode f, SymbolNode t, int w = 0)
         {
             if (weight < 0) throw new ArgumentException("weight can't be negative!");
             from = f;
